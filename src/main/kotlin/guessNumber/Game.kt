@@ -1,7 +1,5 @@
 package guessNumber
 
-import dada.addPoints
-import dada.pay
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import net.mamoe.mirai.contact.Contact
@@ -11,7 +9,6 @@ import net.mamoe.mirai.event.globalEventChannel
 import net.mamoe.mirai.message.data.At
 import net.mamoe.mirai.message.data.PlainText
 import kotlin.coroutines.CoroutineContext
-import kotlin.math.pow
 
 class Game(
     override val coroutineContext: CoroutineContext,
@@ -32,11 +29,10 @@ class Game(
     suspend fun start() {
         GuessNumber.logger.info("生成了$numberToBeGuessed")
         sendMsg(
-            "100明乃币我就收走了哦~猜数字开始~" +
+            "猜数字开始~" +
                     "\n我想好了一个没有重复数字的四位数，快来猜猜看吧(剩余回合越多，奖励就越丰富哦)" +
                     "\n还剩${maxRound - round + 1}次机会"
         )
-        player.pay(100)
 
         channel.subscribeAlways<QuitEvent> {
             if (ply == player) {
@@ -62,17 +58,15 @@ class Game(
                 }
 
                 if (a == 4) {
-                    val bonus = (2.0.pow(maxRound - round) * 200).toInt()
                     sendMsg(
                         "恭喜你猜对了，答案就是${
                             number.joinToString(
                                 prefix = "[",
                                 postfix = "]"
                             )
-                        }\n明乃币+$bonus"
+                        }"
                     )
                     over()
-                    player.addPoints(bonus)
                 } else {
                     if (round == maxRound) {
                         sendMsg("你没猜出来，答案是$numberString")

@@ -1,6 +1,5 @@
 package guessNumber
 
-import dada.enough
 import net.mamoe.mirai.console.command.CommandSender
 import net.mamoe.mirai.console.command.CommandSenderOnMessage
 import net.mamoe.mirai.console.command.SimpleCommand
@@ -25,9 +24,7 @@ object JoinCommand : SimpleCommand(
 ) {
     @Handler
     suspend fun CommandSenderOnMessage<MessageEvent>.join() {
-        if (user!!.enough(100)) {
-            JoinEvent(fromEvent.sender, fromEvent.subject).broadcast()
-        }else subject?.sendMessage("猜数字需要100明乃币入场费，你明乃币不足哦")
+        JoinEvent(fromEvent.sender, fromEvent.subject).broadcast()
     }
 }
 
